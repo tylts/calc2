@@ -1,5 +1,9 @@
+body {
+  font-size: 14px;
+}
+
 .calc-container {
-  width: 600px;
+  width: 400px;
   margin: 4rem auto;
   border: 1px solid gray;
   border-radius: 2%;
@@ -19,6 +23,13 @@
   font-family: monospace;
   pointer-events: none;
   border-radius: 4px;
+}
+
+/* Firefox was treating the width of the display strangely */
+@-moz-document url-prefix() {
+  #display {
+    max-width: 367px;
+  }
 }
 
 .calculator-buttons {

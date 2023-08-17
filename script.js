@@ -2,12 +2,36 @@ let firstNum;
 let secondNum;
 let operator;
 
-const btns = document.querySelectorAll("button");
+let displayValue = document.querySelector("#display");
+const numberBtns = document.querySelectorAll(".number-button");
+const clearBtn = document.querySelector(".clear-button");
+const operatorBtns = document.querySelectorAll(".operator-button");
+const signToggle = document.querySelector(".sign-toggle");
 
-btns.forEach((e) => {
+numberBtns.forEach((e) => {
   e.addEventListener("click", () => {
-    console.log(`${e.textContent}`);
+    if (displayValue.value === "0") displayValue.value = "";
+    displayValue.value += e.textContent;
   });
+});
+
+operatorBtns.forEach((e) => {
+  e.addEventListener("click", () => {
+    firstNum = Number(displayValue.value);
+    console.log(firstNum);
+  });
+});
+
+clearBtn.addEventListener("click", () => {
+  displayValue.value = "0";
+});
+
+signToggle.addEventListener("click", () => {
+  if (displayValue.value === "0") return;
+
+  Number(displayValue.value) > 0
+    ? (displayValue.value = `-${displayValue.value}`)
+    : (displayValue.value = displayValue.value.slice(1));
 });
 
 function addition(a, b) {
