@@ -12,6 +12,7 @@ const clearBtn = document.querySelector(".clear-button");
 const operatorBtns = document.querySelectorAll(".operator-button");
 const signToggle = document.querySelector(".sign-toggle");
 const equalsBtn = document.querySelector("#equals");
+const decimalBtn = document.querySelector(".decimal-button");
 
 numberBtns.forEach((e) => {
   e.addEventListener("click", () => {
@@ -29,8 +30,27 @@ numberBtns.forEach((e) => {
   });
 });
 
+decimalBtn.addEventListener("click", () => {
+  if (displayValue.value.includes(".") && clearDisplayNextInput === false) {
+    return;
+  }
+
+  if (clearDisplayNextInput === true) {
+    displayValue.value = "0.";
+    clearDisplayNextInput = false;
+    return;
+  }
+  displayValue.value += decimalBtn.textContent;
+});
+
 operatorBtns.forEach((e) => {
   e.addEventListener("click", () => {
+    if (operationChain === true) {
+      secondNum = Number(displayValue.value);
+      displayValue.value = operate(firstNum, secondNum, operator);
+      operator = e.textContent;
+    }
+
     if (operator != null) {
       operator = e.textContent;
       firstNum = Number(displayValue.value);
@@ -38,12 +58,6 @@ operatorBtns.forEach((e) => {
       clearDisplayNextInput = true;
       equalsChain = false;
       return;
-    }
-
-    if (operationChain === true) {
-      secondNum = Number(displayValue.value);
-      operator = e.textContent;
-      displayValue.value = operate(firstNum, secondNum, operator);
     }
 
     firstNum = Number(displayValue.value);
