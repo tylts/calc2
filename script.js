@@ -20,6 +20,11 @@ numberBtns.forEach((e) => {
       displayValue.value = "";
       clearDisplayNextInput = false;
     }
+    if (firstNum) {
+      displayValue.value += e.textContent;
+      secondNum = Number(displayValue.value);
+      return;
+    }
     displayValue.value += e.textContent;
   });
 });
@@ -31,6 +36,7 @@ operatorBtns.forEach((e) => {
       firstNum = Number(displayValue.value);
       operationChain = true;
       clearDisplayNextInput = true;
+      equalsChain = false;
       return;
     }
 
@@ -44,6 +50,7 @@ operatorBtns.forEach((e) => {
     operator = e.textContent;
     clearDisplayNextInput = true;
     operationChain = true;
+    equalsChain = false;
   });
 });
 
@@ -58,16 +65,13 @@ signToggle.addEventListener("click", () => {
 });
 
 equalsBtn.addEventListener("click", () => {
-  // FIGURE THIS OUT!!
+  if (equalsChain) {
+    let constantNum = secondNum;
+    firstNum = Number(displayValue.value);
+    displayValue.value = operate(firstNum, constantNum, operator);
+    return;
+  }
 
-  // if (equalsChain) {
-  //   console.log("test");
-  //   let constantNum = secondNum;
-  //   operate(firstNum, constantNum, operator);
-  //   console.log(constantNum);
-  //   return;
-  // }
-  secondNum = Number(displayValue.value);
   displayValue.value = operate(firstNum, secondNum, operator);
   operate(firstNum, secondNum, operator);
   clearDisplayNextInput = true;
