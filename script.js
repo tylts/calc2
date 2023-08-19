@@ -1,4 +1,4 @@
-let firstNum;
+let firstNum = 0;
 let secondNum;
 let operator;
 
@@ -21,7 +21,7 @@ numberBtns.forEach((e) => {
       displayValue.value = "";
       clearDisplayNextInput = false;
     }
-    if (firstNum) {
+    if (firstNum || firstNum === 0) {
       displayValue.value += e.textContent;
       secondNum = Number(displayValue.value);
       return;
@@ -47,20 +47,22 @@ operatorBtns.forEach((e) => {
   e.addEventListener("click", () => {
     if (operationChain === true) {
       secondNum = Number(displayValue.value);
-      displayValue.value = operate(firstNum, secondNum, operator);
+      displayValue.value = Number(
+        operate(firstNum, secondNum, operator).toFixed(7)
+      );
       operator = e.textContent;
     }
 
     if (operator != null) {
       operator = e.textContent;
       firstNum = Number(displayValue.value);
+      if (displayValue.value === "divide by 0? lol") firstNum = 0;
       operationChain = true;
       clearDisplayNextInput = true;
       equalsChain = false;
       return;
     }
 
-    firstNum = Number(displayValue.value);
     operator = e.textContent;
     clearDisplayNextInput = true;
     operationChain = true;
@@ -79,14 +81,25 @@ signToggle.addEventListener("click", () => {
 });
 
 equalsBtn.addEventListener("click", () => {
+  if (isNaN(firstNum) || isNaN(secondNum) || !operator) {
+    console.log(firstNum, operator, secondNum);
+    clearCalc();
+    displayValue.value = "You messed up.";
+    console.log("triggered in equals");
+    return;
+  }
   if (equalsChain) {
     let constantNum = secondNum;
     firstNum = Number(displayValue.value);
-    displayValue.value = operate(firstNum, constantNum, operator);
+    displayValue.value = Number(
+      operate(firstNum, constantNum, operator).toFixed(7)
+    );
     return;
   }
 
-  displayValue.value = operate(firstNum, secondNum, operator);
+  displayValue.value = Number(
+    operate(firstNum, secondNum, operator).toFixed(7)
+  );
   operate(firstNum, secondNum, operator);
   clearDisplayNextInput = true;
   operationChain = false;
@@ -106,14 +119,22 @@ function multiplication(a, b) {
 }
 
 function division(a, b) {
-  if (b === 0) {
-    return "Infinity???? Trying to divide by 0 I see...";
-  }
   return a / b;
 }
 
 function operate(a, b, operator) {
-  console.log(a, operator, b);
+  if (b === 0 && operator === "÷") {
+    clearCalc();
+    displayValue.value = "divide by 0? lol";
+    return 0;
+  }
+
+  if (isNaN(a) || isNaN(b) || !operator) {
+    clearCalc();
+    displayValue.value = "You messed up.";
+    console.log("triggered in operate()");
+    return;
+  }
   switch (operator) {
     case "+":
       return addition(a, b);
@@ -128,8 +149,9 @@ function operate(a, b, operator) {
 
 function clearCalc() {
   displayValue.value = "0";
-  firstNum = null;
-  secondNum = null;
-  operator = null;
+  firstNum = 0;
+  secondNum = 0;
   equalsChain = false;
+  clearDisplayNextInput = true;
+  operationChain = false;
 }
