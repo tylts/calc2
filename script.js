@@ -82,7 +82,7 @@ function numberFunction(e) {
       displayValue.value = "";
       clearDisplayNextInput = false;
     }
-    if (firstNum || firstNum === 0) {
+    if (firstNum || secondNum === 0) {
       displayValue.value += e.textContent;
       secondNum = Number(displayValue.value);
       return;
@@ -106,13 +106,12 @@ function decimalFunction() {
 
 function operatorFunction(e) {
   e.addEventListener("click", () => {
-    firstNum = Number(displayValue.value);
-    secondNumIsNext = true;
     if (operationChain === true) {
       secondNum = Number(displayValue.value);
       displayValue.value = Number(
         operate(firstNum, secondNum, operator).toFixed(7)
       );
+      console.log(firstNum, operator, secondNum);
       operator = e.textContent;
     }
 
@@ -125,7 +124,8 @@ function operatorFunction(e) {
       equalsChain = false;
       return;
     }
-
+    firstNum = Number(displayValue.value);
+    secondNumIsNext = true;
     operator = e.textContent;
     clearDisplayNextInput = true;
     operationChain = true;
@@ -134,17 +134,31 @@ function operatorFunction(e) {
 }
 
 function percentFunction() {
-  if (firstNum === 100) {
-    secondNum = Number(((firstNum / 100) * secondNum).toFixed(7));
-  }
-  if (clearDisplayNextInput === false && !secondNumIsNext) {
-    firstNum = Number((displayValue.value / 100).toFixed(7));
-    displayValue.value = firstNum;
-    clearDisplayNextInput = true;
+  if (!clearDisplayNextInput) {
+    if (firstNum === 100) {
+      secondNum = Number(((firstNum / 100) * secondNum).toFixed(7));
+    }
+
+    if (operator === "+" || operator === "-") {
+      secondNum = Number(((secondNum / 100) * firstNum).toFixed(7));
+      displayValue.value = secondNum;
+      clearDisplayNextInput = true;
+      console.log(firstNum, operator, secondNum);
+      secondNumIsNext = false;
+    }
+
+    if (operator === "×" || operator === "÷") {
+      displayValue.value = Number(secondNum / 100);
+      clearDisplayNextInput = true;
+      secondNum = Number(displayValue.value);
+      console.log(firstNum, operator, secondNum);
+      secondNumIsNext = false;
+    }
   }
 
   if (secondNumIsNext) {
     if (operator === "+" || operator === "-") {
+      console.log(`Second Num is ${secondNum}`);
       console.log((secondNum / 100) * firstNum);
       displayValue.value = Number(((secondNum / 100) * firstNum).toFixed(7));
       secondNum = Number(displayValue.value);
