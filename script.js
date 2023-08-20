@@ -1,18 +1,20 @@
 let firstNum = 0;
 let secondNum;
 let operator;
+let displayValue = document.querySelector("#display");
 
 let clearDisplayNextInput = true;
 let operationChain = false;
 let equalsChain = false;
+let secondNumIsNext = false;
 
-let displayValue = document.querySelector("#display");
 const numberBtns = document.querySelectorAll(".number-button");
 const clearBtn = document.querySelector(".clear-button");
 const operatorBtns = document.querySelectorAll(".operator-button");
 const signToggle = document.querySelector(".sign-toggle");
 const equalsBtn = document.querySelector("#equals");
 const decimalBtn = document.querySelector(".decimal-button");
+const percentBtn = document.querySelector(".percent-button");
 
 numberBtns.forEach((e) => {
   e.addEventListener("click", () => {
@@ -45,6 +47,8 @@ decimalBtn.addEventListener("click", () => {
 
 operatorBtns.forEach((e) => {
   e.addEventListener("click", () => {
+    firstNum = Number(displayValue.value);
+    secondNumIsNext = true;
     if (operationChain === true) {
       secondNum = Number(displayValue.value);
       displayValue.value = Number(
@@ -68,6 +72,31 @@ operatorBtns.forEach((e) => {
     operationChain = true;
     equalsChain = false;
   });
+});
+
+percentBtn.addEventListener("click", () => {
+  if (firstNum === 100) {
+    secondNum = Number(((firstNum / 100) * secondNum).toFixed(7));
+  }
+  if (clearDisplayNextInput === false && !secondNumIsNext) {
+    firstNum = Number((displayValue.value / 100).toFixed(7));
+    displayValue.value = firstNum;
+    clearDisplayNextInput = true;
+  }
+
+  if (secondNumIsNext) {
+    if (operator === "+" || operator === "-") {
+      console.log((secondNum / 100) * firstNum);
+      displayValue.value = Number(((secondNum / 100) * firstNum).toFixed(7));
+      secondNum = Number(displayValue.value);
+    }
+
+    if (operator === "×" || operator === "÷") {
+      console.log((secondNum / 100) * firstNum);
+      displayValue.value = Number((secondNum / 100).toFixed(7));
+      secondNum = Number(displayValue.value);
+    }
+  }
 });
 
 clearBtn.addEventListener("click", clearCalc);
@@ -154,4 +183,5 @@ function clearCalc() {
   equalsChain = false;
   clearDisplayNextInput = true;
   operationChain = false;
+  secondNumIsNext = false;
 }
