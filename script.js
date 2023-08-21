@@ -16,6 +16,97 @@ const equalsBtn = document.querySelector("#equals");
 const decimalBtn = document.querySelector(".decimal-button");
 const percentBtn = document.querySelector(".percent-button");
 
+addEventListener("keydown", (e) => {
+  e.preventDefault();
+  keyboardInput(e.key);
+});
+
+function keyboardInput(key) {
+  // Number Inputs
+  if (/^[0-9]+$/.test(key)) {
+    if (displayValue.value === "0") displayValue.value = "";
+    if (clearDisplayNextInput === true) {
+      displayValue.value = "";
+      clearDisplayNextInput = false;
+    }
+    if (firstNum || secondNum === 0) {
+      displayValue.value += key;
+      secondNum = Number(displayValue.value);
+      return;
+    }
+    displayValue.value += key;
+  }
+
+  // Operator Input
+  if (/[+*\/-]/g.test(key)) {
+    if (key === "/") key = "÷";
+    if (key === "*") key = "×";
+    if (operationChain === true) {
+      secondNum = Number(displayValue.value);
+      displayValue.value = Number(
+        operate(firstNum, secondNum, operator).toFixed(7)
+      );
+      console.log(firstNum, operator, secondNum);
+      operator = key;
+    }
+
+    if (operator != null) {
+      operator = key;
+      firstNum = Number(displayValue.value);
+      if (displayValue.value === "divide by 0? lol") firstNum = 0;
+      operationChain = true;
+      clearDisplayNextInput = true;
+      equalsChain = false;
+      return;
+    }
+    firstNum = Number(displayValue.value);
+    secondNumIsNext = true;
+    operator = key;
+    clearDisplayNextInput = true;
+    operationChain = true;
+    equalsChain = false;
+  }
+
+  // Enter Key Input
+  if (key === "Enter") {
+    if (isNaN(firstNum) || isNaN(secondNum) || !operator) {
+      console.log(firstNum, operator, secondNum);
+      clearCalc();
+      displayValue.value = "You messed up.";
+      console.log("triggered in equals");
+      return;
+    }
+    if (equalsChain) {
+      let constantNum = secondNum;
+      firstNum = Number(displayValue.value);
+      displayValue.value = Number(
+        operate(firstNum, constantNum, operator).toFixed(7)
+      );
+      return;
+    }
+
+    console.log(firstNum, operator, secondNum);
+    displayValue.value = Number(
+      operate(firstNum, secondNum, operator).toFixed(7)
+    );
+    operate(firstNum, secondNum, operator);
+    clearDisplayNextInput = true;
+    operationChain = false;
+    equalsChain = true;
+  }
+
+  // Decimal Input
+  if (/\./.test(key)) {
+    decimalFunction();
+  }
+
+  // Delete Input
+  if (key == "Backspace") {
+    displayValue.value = displayValue.value.slice(0, -1);
+    if (displayValue.value.length === 0) displayValue.value = 0;
+  }
+}
+
 numberBtns.forEach((e) => e.addEventListener("click", numberFunction(e)));
 decimalBtn.addEventListener("click", decimalFunction);
 operatorBtns.forEach((e) => e.addEventListener("click", operatorFunction(e)));
@@ -170,6 +261,8 @@ function percentFunction() {
       secondNum = Number(displayValue.value);
     }
   }
+  firstNum = Number((displayValue.value / 100).toFixed(7));
+  displayValue.value = firstNum;
 }
 
 function signToggleFunction() {
@@ -197,6 +290,7 @@ function equalsFunction() {
     return;
   }
 
+  console.log(firstNum, operator, secondNum);
   displayValue.value = Number(
     operate(firstNum, secondNum, operator).toFixed(7)
   );
