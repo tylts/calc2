@@ -18,10 +18,30 @@ const percentBtn = document.querySelector(".percent-button");
 
 addEventListener("keydown", (e) => {
   e.preventDefault();
-  keyboardInput(e.key);
+  keyboardInput(e.key, e.code);
 });
 
-function keyboardInput(key) {
+function keyboardInput(key, code) {
+  // Percent Input
+  if (key === "%") {
+    percentFunction();
+  }
+
+  // Clear Keyboard Input (Esc key)
+  if (key === "Escape") {
+    clearCalc();
+  }
+
+  // Sign Toggle Input
+  if (code === "Minus") {
+    if (displayValue.value === "0") return;
+
+    Number(displayValue.value) > 0
+      ? (displayValue.value = `-${displayValue.value}`)
+      : (displayValue.value = displayValue.value.slice(1));
+    return;
+  }
+
   // Number Inputs
   if (/^[0-9]+$/.test(key)) {
     if (displayValue.value === "0") displayValue.value = "";
@@ -35,6 +55,7 @@ function keyboardInput(key) {
       return;
     }
     displayValue.value += key;
+    return;
   }
 
   // Operator Input
@@ -93,6 +114,7 @@ function keyboardInput(key) {
     clearDisplayNextInput = true;
     operationChain = false;
     equalsChain = true;
+    secondNumIsNext = false;
   }
 
   // Decimal Input
@@ -160,6 +182,7 @@ function clearCalc() {
   displayValue.value = "0";
   firstNum = 0;
   secondNum = 0;
+  operator = undefined;
   equalsChain = false;
   clearDisplayNextInput = true;
   operationChain = false;
@@ -236,6 +259,7 @@ function percentFunction() {
       clearDisplayNextInput = true;
       console.log(firstNum, operator, secondNum);
       secondNumIsNext = false;
+      return;
     }
 
     if (operator === "×" || operator === "÷") {
@@ -244,6 +268,7 @@ function percentFunction() {
       secondNum = Number(displayValue.value);
       console.log(firstNum, operator, secondNum);
       secondNumIsNext = false;
+      return;
     }
   }
 
@@ -253,12 +278,14 @@ function percentFunction() {
       console.log((secondNum / 100) * firstNum);
       displayValue.value = Number(((secondNum / 100) * firstNum).toFixed(7));
       secondNum = Number(displayValue.value);
+      return;
     }
 
     if (operator === "×" || operator === "÷") {
       console.log((secondNum / 100) * firstNum);
       displayValue.value = Number((secondNum / 100).toFixed(7));
       secondNum = Number(displayValue.value);
+      return;
     }
   }
   firstNum = Number((displayValue.value / 100).toFixed(7));
@@ -298,4 +325,5 @@ function equalsFunction() {
   clearDisplayNextInput = true;
   operationChain = false;
   equalsChain = true;
+  secondNumIsNext = false;
 }
