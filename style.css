@@ -3,6 +3,10 @@
   src: url(digital-7.ttf);
 }
 
+* {
+  touch-action: manipulation;
+}
+
 body {
   font-size: 14px;
 }
