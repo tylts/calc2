@@ -34,27 +34,27 @@ function keyboardInput(key, code) {
 
   // Sign Toggle Input
   if (code === "Minus") {
-    if (displayValue.value === "0") return;
+    if (displayValue.textContent === "0") return;
 
-    Number(displayValue.value) > 0
-      ? (displayValue.value = `-${displayValue.value}`)
-      : (displayValue.value = displayValue.value.slice(1));
+    Number(displayValue.textContent) > 0
+      ? (displayValue.textContent = `-${displayValue.textContent}`)
+      : (displayValue.textContent = displayValue.textContent.slice(1));
     return;
   }
 
   // Number Inputs
   if (/^[0-9]+$/.test(key)) {
-    if (displayValue.value === "0") displayValue.value = "";
+    if (displayValue.textContent === "0") displayValue.textContent = "";
     if (clearDisplayNextInput === true) {
-      displayValue.value = "";
+      displayValue.textContent = "";
       clearDisplayNextInput = false;
     }
     if (firstNum || secondNum === 0) {
-      displayValue.value += key;
-      secondNum = Number(displayValue.value);
+      displayValue.textContent += key;
+      secondNum = Number(displayValue.textContent);
       return;
     }
-    displayValue.value += key;
+    displayValue.textContent += key;
     return;
   }
 
@@ -63,8 +63,8 @@ function keyboardInput(key, code) {
     if (key === "/") key = "÷";
     if (key === "*") key = "×";
     if (operationChain === true) {
-      secondNum = Number(displayValue.value);
-      displayValue.value = Number(
+      secondNum = Number(displayValue.textContent);
+      displayValue.textContent = Number(
         operate(firstNum, secondNum, operator).toFixed(7)
       );
       console.log(firstNum, operator, secondNum);
@@ -73,14 +73,14 @@ function keyboardInput(key, code) {
 
     if (operator != null) {
       operator = key;
-      firstNum = Number(displayValue.value);
-      if (displayValue.value === "divide by 0? lol") firstNum = 0;
+      firstNum = Number(displayValue.textContent);
+      if (displayValue.textContent === "divide by 0? lol") firstNum = 0;
       operationChain = true;
       clearDisplayNextInput = true;
       equalsChain = false;
       return;
     }
-    firstNum = Number(displayValue.value);
+    firstNum = Number(displayValue.textContent);
     secondNumIsNext = true;
     operator = key;
     clearDisplayNextInput = true;
@@ -93,21 +93,21 @@ function keyboardInput(key, code) {
     if (isNaN(firstNum) || isNaN(secondNum) || !operator) {
       console.log(firstNum, operator, secondNum);
       clearCalc();
-      displayValue.value = "You messed up.";
+      displayValue.textContent = "You messed up.";
       console.log("triggered in equals");
       return;
     }
     if (equalsChain) {
       let constantNum = secondNum;
-      firstNum = Number(displayValue.value);
-      displayValue.value = Number(
+      firstNum = Number(displayValue.textContent);
+      displayValue.textContent = Number(
         operate(firstNum, constantNum, operator).toFixed(7)
       );
       return;
     }
 
     console.log(firstNum, operator, secondNum);
-    displayValue.value = Number(
+    displayValue.textContent = Number(
       operate(firstNum, secondNum, operator).toFixed(7)
     );
     operate(firstNum, secondNum, operator);
@@ -124,8 +124,8 @@ function keyboardInput(key, code) {
 
   // Delete Input
   if (key == "Backspace") {
-    displayValue.value = displayValue.value.slice(0, -1);
-    if (displayValue.value.length === 0) displayValue.value = 0;
+    displayValue.textContent = displayValue.textContent.slice(0, -1);
+    if (displayValue.textContent.length === 0) displayValue.textContent = 0;
   }
 }
 
@@ -156,13 +156,13 @@ function division(a, b) {
 function operate(a, b, operator) {
   if (b === 0 && operator === "÷") {
     clearCalc();
-    displayValue.value = "divide by 0? lol";
+    displayValue.textContent = "divide by 0? lol";
     return 0;
   }
 
   if (isNaN(a) || isNaN(b) || !operator) {
     clearCalc();
-    displayValue.value = "You messed up.";
+    displayValue.textContent = "You messed up.";
     console.log("triggered in operate()");
     return;
   }
@@ -179,7 +179,7 @@ function operate(a, b, operator) {
 }
 
 function clearCalc() {
-  displayValue.value = "0";
+  displayValue.textContent = "0";
   firstNum = 0;
   secondNum = 0;
   operator = undefined;
@@ -191,38 +191,41 @@ function clearCalc() {
 
 function numberFunction(e) {
   e.addEventListener("click", () => {
-    if (displayValue.value === "0") displayValue.value = "";
+    if (displayValue.textContent === "0") displayValue.textContent = "";
     if (clearDisplayNextInput === true) {
-      displayValue.value = "";
+      displayValue.textContent = "";
       clearDisplayNextInput = false;
     }
     if (firstNum || secondNum === 0) {
-      displayValue.value += e.textContent;
-      secondNum = Number(displayValue.value);
+      displayValue.textContent += e.textContent;
+      secondNum = Number(displayValue.textContent);
       return;
     }
-    displayValue.value += e.textContent;
+    displayValue.textContent += e.textContent;
   });
 }
 
 function decimalFunction() {
-  if (displayValue.value.includes(".") && clearDisplayNextInput === false) {
+  if (
+    displayValue.textContent.includes(".") &&
+    clearDisplayNextInput === false
+  ) {
     return;
   }
 
   if (clearDisplayNextInput === true) {
-    displayValue.value = "0.";
+    displayValue.textContent = "0.";
     clearDisplayNextInput = false;
     return;
   }
-  displayValue.value += decimalBtn.textContent;
+  displayValue.textContent += decimalBtn.textContent;
 }
 
 function operatorFunction(e) {
   e.addEventListener("click", () => {
     if (operationChain === true) {
-      secondNum = Number(displayValue.value);
-      displayValue.value = Number(
+      secondNum = Number(displayValue.textContent);
+      displayValue.textContent = Number(
         operate(firstNum, secondNum, operator).toFixed(7)
       );
       console.log(firstNum, operator, secondNum);
@@ -231,14 +234,14 @@ function operatorFunction(e) {
 
     if (operator != null) {
       operator = e.textContent;
-      firstNum = Number(displayValue.value);
-      if (displayValue.value === "divide by 0? lol") firstNum = 0;
+      firstNum = Number(displayValue.textContent);
+      if (displayValue.textContent === "divide by 0? lol") firstNum = 0;
       operationChain = true;
       clearDisplayNextInput = true;
       equalsChain = false;
       return;
     }
-    firstNum = Number(displayValue.value);
+    firstNum = Number(displayValue.textContent);
     secondNumIsNext = true;
     operator = e.textContent;
     clearDisplayNextInput = true;
@@ -255,7 +258,7 @@ function percentFunction() {
 
     if (operator === "+" || operator === "-") {
       secondNum = Number(((secondNum / 100) * firstNum).toFixed(7));
-      displayValue.value = secondNum;
+      displayValue.textContent = secondNum;
       clearDisplayNextInput = true;
       console.log(firstNum, operator, secondNum);
       secondNumIsNext = false;
@@ -263,9 +266,9 @@ function percentFunction() {
     }
 
     if (operator === "×" || operator === "÷") {
-      displayValue.value = Number(secondNum / 100);
+      displayValue.textContent = Number(secondNum / 100);
       clearDisplayNextInput = true;
-      secondNum = Number(displayValue.value);
+      secondNum = Number(displayValue.textContent);
       console.log(firstNum, operator, secondNum);
       secondNumIsNext = false;
       return;
@@ -276,49 +279,51 @@ function percentFunction() {
     if (operator === "+" || operator === "-") {
       console.log(`Second Num is ${secondNum}`);
       console.log((secondNum / 100) * firstNum);
-      displayValue.value = Number(((secondNum / 100) * firstNum).toFixed(7));
-      secondNum = Number(displayValue.value);
+      displayValue.textContent = Number(
+        ((secondNum / 100) * firstNum).toFixed(7)
+      );
+      secondNum = Number(displayValue.textContent);
       return;
     }
 
     if (operator === "×" || operator === "÷") {
       console.log((secondNum / 100) * firstNum);
-      displayValue.value = Number((secondNum / 100).toFixed(7));
-      secondNum = Number(displayValue.value);
+      displayValue.textContent = Number((secondNum / 100).toFixed(7));
+      secondNum = Number(displayValue.textContent);
       return;
     }
   }
-  firstNum = Number((displayValue.value / 100).toFixed(7));
-  displayValue.value = firstNum;
+  firstNum = Number((displayValue.textContent / 100).toFixed(7));
+  displayValue.textContent = firstNum;
 }
 
 function signToggleFunction() {
-  if (displayValue.value === "0") return;
+  if (displayValue.textContent === "0") return;
 
-  Number(displayValue.value) > 0
-    ? (displayValue.value = `-${displayValue.value}`)
-    : (displayValue.value = displayValue.value.slice(1));
+  Number(displayValue.textContent) > 0
+    ? (displayValue.textContent = `-${displayValue.textContent}`)
+    : (displayValue.textContent = displayValue.textContent.slice(1));
 }
 
 function equalsFunction() {
   if (isNaN(firstNum) || isNaN(secondNum) || !operator) {
     console.log(firstNum, operator, secondNum);
     clearCalc();
-    displayValue.value = "You messed up.";
+    displayValue.textContent = "You messed up.";
     console.log("triggered in equals");
     return;
   }
   if (equalsChain) {
     let constantNum = secondNum;
-    firstNum = Number(displayValue.value);
-    displayValue.value = Number(
+    firstNum = Number(displayValue.textContent);
+    displayValue.textContent = Number(
       operate(firstNum, constantNum, operator).toFixed(7)
     );
     return;
   }
 
   console.log(firstNum, operator, secondNum);
-  displayValue.value = Number(
+  displayValue.textContent = Number(
     operate(firstNum, secondNum, operator).toFixed(7)
   );
   operate(firstNum, secondNum, operator);
