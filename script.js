@@ -36,9 +36,15 @@ function keyboardInput(key, code) {
   if (code === "Minus") {
     if (displayValue.textContent === "0") return;
 
-    Number(displayValue.textContent) > 0
-      ? (displayValue.textContent = `-${displayValue.textContent}`)
-      : (displayValue.textContent = displayValue.textContent.slice(1));
+    if (Number(displayValue.textContent) > 0) {
+      displayValue.textContent = `-${displayValue.textContent}`;
+    } else {
+      displayValue.textContent = displayValue.textContent.slice(1);
+    }
+
+    if (secondNum) {
+      secondNum = Number(displayValue.textContent);
+    }
     return;
   }
 
@@ -181,7 +187,7 @@ function operate(a, b, operator) {
 function clearCalc() {
   displayValue.textContent = "0";
   firstNum = 0;
-  secondNum = 0;
+  secondNum = undefined;
   operator = undefined;
   equalsChain = false;
   clearDisplayNextInput = true;

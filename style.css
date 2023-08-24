@@ -57,7 +57,7 @@ p {
   border-radius: 4px;
 }
 
-@media only screen and (max-width: 375px) {
+@media only screen and (max-width: 450px) {
   .calc-container {
     width: 350px;
   }
