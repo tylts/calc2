@@ -103,3 +103,13 @@ button {
   grid-column-start: 3;
   grid-column-end: span 2;
 }
+
+#info {
+  display: flex;
+  margin: auto;
+}
+
+#info p {
+  width: 400px;
+  text-align: left;
+}
