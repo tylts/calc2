@@ -3,18 +3,39 @@
   src: url(digital-7.ttf);
 }
 
+html {
+  font-size: 15px;
+}
+
 * {
   touch-action: manipulation;
 }
 
 body {
-  font-size: 14px;
+  display: flex;
+  flex-direction: column;
+  font-size: 1rem;
+  font-family: Arial, Helvetica, sans-serif;
+}
+
+h1 {
+  font-size: 2.125rem;
+  text-align: center;
+  margin-top: 40px;
+  font-family: Arial, Helvetica, sans-serif;
+  font-weight: 600;
+}
+
+p {
+  text-align: center;
 }
 
 .calc-container {
   width: 450px;
   margin: 4rem auto;
-  border: 10px solid #2d2d2d;
+  border: 8px outset #2d2d2d;
+  border-radius: 4px;
+  box-shadow: 6px 8px #888888;
 }
 
 .display-container {
@@ -24,7 +45,7 @@ body {
 
 #display {
   background: #615c48;
-  padding: 4px;
+  padding: 4px 12px;
   margin: 1rem;
   font-size: 3rem;
   flex: auto;
@@ -34,6 +55,12 @@ body {
   pointer-events: none;
   border: 8px inset #2d2d2d;
   border-radius: 4px;
+}
+
+@media only screen and (max-width: 375px) {
+  .calc-container {
+    width: 350px;
+  }
 }
 
 /* Firefox was treating the width of the calulator display strangely */
