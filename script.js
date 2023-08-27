@@ -309,6 +309,10 @@ function signToggleFunction() {
   Number(displayValue.textContent) > 0
     ? (displayValue.textContent = `-${displayValue.textContent}`)
     : (displayValue.textContent = displayValue.textContent.slice(1));
+
+  if (secondNum) {
+    secondNum = Number(displayValue.textContent);
+  }
 }
 
 function equalsFunction() {
