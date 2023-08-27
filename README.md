@@ -1,5 +1,7 @@
 # The Ugly AF Retro Calculator
 
+https://tylts.github.io/calc2/
+
 I built this over the course of a few days as a challenge to start and finish something completely from a blank slate. All in all it took me around 7 hours to get to its current point. I'll probably look back on this fondly as the project that taught me most about JavaScript scoping and how some of the logic works. The code is a mess but I'll eventually come back and clean it up. The main goal here was to make something that works.
 
 ## The Design
