@@ -12,8 +12,6 @@ html {
 }
 
 body {
-  display: flex;
-  flex-direction: column;
   font-size: 1rem;
   font-family: Arial, Helvetica, sans-serif;
 }
@@ -24,10 +22,6 @@ h1 {
   margin-top: 40px;
   font-family: Arial, Helvetica, sans-serif;
   font-weight: 600;
-}
-
-p {
-  text-align: center;
 }
 
 .calc-container {
@@ -57,17 +51,11 @@ p {
   border-radius: 4px;
 }
 
-@media only screen and (max-width: 450px) {
-  .calc-container {
-    width: 350px;
-  }
-}
-
-/* Firefox was treating the width of the calulator display strangely */
-@-moz-document url-prefix() {
-  #display {
-    max-width: 400px;
-  }
+#info {
+  margin: auto;
+  width: 400px;
+  font-size: 1.2rem;
+  line-height: 1.5rem;
 }
 
 .calculator-buttons {
@@ -104,12 +92,15 @@ button {
   grid-column-end: span 2;
 }
 
-#info {
-  display: flex;
-  margin: auto;
-}
+@media only screen and (max-width: 450px) {
+  .calc-container {
+    width: 350px;
+  }
 
-#info p {
-  width: 400px;
-  text-align: left;
+  #info {
+    margin: auto;
+    width: 300px;
+    font-size: 1.2rem;
+    line-height: 1.5rem;
+  }
 }
