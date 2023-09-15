@@ -110,8 +110,17 @@ button {
 }
 
 @media only screen and (max-width: 450px) {
+  button {
+    padding: 0.4rem;
+    font-size: 1rem;
+    border: 6px solid var(--calc-container);
+  }
+
   .calc-container {
     width: 350px;
+    border: 6px outset var(--calc-container);
+    border-radius: 4px;
+    box-shadow: 6px 8px var(--display-equals);
   }
 
   #info {
