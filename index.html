@@ -52,21 +52,33 @@
       </div>
     </div>
     <div id="info">
+      <h1>
+        I know what you're thinking - "Another calculator!?! How is this one any
+        different than the other thousand I've seen?"
+      </h1>
       <p>
-        This is my take on a basic ugly retro calculator. The logic and DOM
-        magic is all coded in vanilla JavaScript and it's styled using basic
-        CSS. I wanted it to operate as closely as possible to my iPhone
-        calculator because that's what I had on hand. You can read more on
+        Well for starters, this one looks dope. The logic and DOM magic is all
+        coded in vanilla JavaScript and it's styled using basic CSS. I based the
+        functionality on my iPhone's calculator because that's what I had on
+        hand to test it all out.
+      </p>
+      <p>
+        Keep hitting equal after an equation and the calculator will continue
+        evaluating based on the previous calculation. The percent button took me
+        the longest to hack out. The iPhone calculator treats the percent button
+        differently whether it's the first number in the equation or the second;
+        also addition/subtraction vs multiplication/division. I wanted my
+        calculator to reflect that, so for example you'll see that if you type 3
+        and then % the display will show 0.03 which is 3/100. However if you
+        want to increase 3 by 6%, you can type 3 + 6% and the display will
+        immediately show 6% of 3 before adding it all together by hitting the =
+        key. Just TRY IT! Use your keyboard!
+      </p>
+      <p>
+        You can read more on
         <a href="https://github.com/tylts/calculator" target="_blank"
           >the github repo</a
         >.
-      </p>
-      <br />
-      <p>
-        While this technically works on mobile, it's more fun on desktop with a
-        keyboard that has a tenkey. Esc key will clear the calculator. The
-        hyphen/underscore key will toggle the number sign to positive or
-        negative. Enjoy!
       </p>
     </div>
     <script src="script.js"></script>

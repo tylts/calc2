@@ -3,6 +3,19 @@
   src: url(digital-7.ttf);
 }
 
+@font-face {
+  font-family: Roboto;
+  src: url(Roboto-Regular.ttf);
+}
+
+:root {
+  --display-equals: #4d5340;
+  --main-background: #c6bba3;
+  --btns-area-background: #979684;
+  --calc-container: #1d1e18;
+  --btn-font: #c6bba3;
+}
+
 html {
   font-size: 15px;
 }
@@ -13,53 +26,56 @@ html {
 
 body {
   font-size: 1rem;
-  font-family: Arial, Helvetica, sans-serif;
+  font-family: 'Roboto', Arial, Helvetica, sans-serif;
+  background-color: var(--main-background);
 }
 
 h1 {
-  font-size: 2.125rem;
-  text-align: center;
-  margin-top: 40px;
-  font-family: Arial, Helvetica, sans-serif;
-  font-weight: 600;
+  font-size: 2rem;
+  line-height: 2.2rem;
+}
+
+p {
+  font-size: 1rem;
+  line-height: 1.3rem;
 }
 
 .calc-container {
   width: 450px;
   margin: 4rem auto;
-  border: 8px outset #2d2d2d;
+  border: 8px outset var(--calc-container);
   border-radius: 4px;
-  box-shadow: 6px 8px #888888;
+  box-shadow: 6px 8px var(--display-equals);
 }
 
 .display-container {
   display: flex;
-  background-color: #2d2d2d;
+  background-color: var(--calc-container);
 }
 
 #display {
-  background: #615c48;
+  background: var(--display-equals);
   padding: 4px 12px;
   margin: 1rem;
   font-size: 3rem;
   flex: auto;
   text-align: end;
-  font-family: "calculator", monospace;
+  font-family: 'calculator', monospace;
   font-weight: 100;
   pointer-events: none;
-  border: 8px inset #2d2d2d;
+  border: 8px inset var(--calc-container);
   border-radius: 4px;
 }
 
 #info {
   margin: auto;
   width: 400px;
-  font-size: 1.2rem;
-  line-height: 1.5rem;
+  display: grid;
+  gap: 1rem;
 }
 
 .calculator-buttons {
-  background-color: #ddc5a1;
+  background-color: var(--btns-area-background);
   padding: 1rem;
   display: grid;
   grid-template-columns: repeat(4, 1fr);
@@ -67,18 +83,18 @@ h1 {
 }
 
 .clear-button {
-  background: #d06c1e;
+  background: #934730;
 }
 
 button {
-  color: #dedede;
+  color: var(--btn-font);
   background: rgb(80, 80, 80);
   background: linear-gradient(
     90deg,
-    rgba(80, 80, 80, 1) 0%,
-    rgba(45, 45, 45, 1) 100%
+    rgb(66, 66, 66) 0%,
+    var(--calc-container) 100%
   );
-  border: 8px solid #2d2d2d;
+  border: 8px solid var(--calc-container);
   border-radius: 8px;
   padding: 0.8rem;
   font-size: 1.2rem;
@@ -87,9 +103,10 @@ button {
 }
 
 #equals {
-  background: #615c48;
+  background: var(--display-equals);
   grid-column-start: 3;
   grid-column-end: span 2;
+  color: var(--btn-font);
 }
 
 @media only screen and (max-width: 450px) {
