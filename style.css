@@ -111,9 +111,14 @@ button {
 
 @media only screen and (max-width: 450px) {
   button {
-    padding: 0.4rem;
+    padding: 0.6rem 0.4rem;
     font-size: 1rem;
     border: 6px solid var(--calc-container);
+    border-radius: 6px;
+  }
+
+  .calculator-buttons {
+    gap: 0.7rem;
   }
 
   .calc-container {
@@ -128,5 +133,6 @@ button {
     width: 300px;
     font-size: 1.2rem;
     line-height: 1.5rem;
+    padding-bottom: 2rem;
   }
 }
